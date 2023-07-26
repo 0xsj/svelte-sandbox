@@ -10,7 +10,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     )
 
   return (
-    <ClerkProvider frontendApi={frontendApi} tokenCache={tokenCache}>
+    <ClerkProvider publishableKey={frontendApi} tokenCache={tokenCache}>
       {children}
     </ClerkProvider>
   )

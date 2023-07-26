@@ -9,29 +9,27 @@ import { TRPCProvider } from './trpc'
 export function Provider({ children, ...rest }: Omit<TamaguiProviderProps, 'config'>) {
   const scheme = useColorScheme()
   return (
-    <AuthProvider>
-      <TamaguiProvider
-        config={config}
-        disableInjectCSS
-        defaultTheme={scheme === 'dark' ? 'dark' : 'light'}
-        {...rest}
+    <TamaguiProvider
+      config={config}
+      disableInjectCSS
+      defaultTheme={scheme === 'dark' ? 'dark' : 'light'}
+      {...rest}
+    >
+      <ToastProvider
+        swipeDirection="horizontal"
+        duration={6000}
+        native={
+          [
+            /* uncomment the next line to do native toasts on mobile. NOTE: it'll require you making a dev build and won't work with Expo Go */
+            // 'mobile'
+          ]
+        }
       >
-        <ToastProvider
-          swipeDirection="horizontal"
-          duration={6000}
-          native={
-            [
-              /* uncomment the next line to do native toasts on mobile. NOTE: it'll require you making a dev build and won't work with Expo Go */
-              // 'mobile'
-            ]
-          }
-        >
-          <TRPCProvider>{children}</TRPCProvider>
+        <TRPCProvider>{children}</TRPCProvider>
 
-          <CustomToast />
-          <ToastViewport />
-        </ToastProvider>
-      </TamaguiProvider>
-    </AuthProvider>
+        <CustomToast />
+        <ToastViewport />
+      </ToastProvider>
+    </TamaguiProvider>
   )
 }

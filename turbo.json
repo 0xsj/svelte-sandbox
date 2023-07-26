@@ -1,15 +1,19 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "globalEnv": ["DISABLE_EXTRACTION", "NODE_ENV", "EAS_BUILD_PLATFORM"],
+  "globalEnv": ["DISABLE_EXTRACTION", "NODE_ENV", "EAS_BUILD_PLATFORM", "DATABASE_URL","NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY", "CLERK_SECRET_KEY" ],
   "pipeline": {
+    "db-generate": {
+      "inputs": ["prisma/schema.prisma"],
+      "cache": false
+    },
     "build": {
-      "env": ["DISABLE_EXTRACTION", "NODE_ENV", "EAS_BUILD_PLATFORM"],
+      "env": ["DISABLE_EXTRACTION", "NODE_ENV", "EAS_BUILD_PLATFORM", "DATABASE_URL","NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY", "CLERK_SECRET_KEY" ],
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "build/**", "node_modules/.cache/metro/**"]
     },
     "dev": {
-      "cache": false,
-      "persistent": true
+      "dependsOn": ["^db-generate"],
+      "cache": false
     }
   }
 }

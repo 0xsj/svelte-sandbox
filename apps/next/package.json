@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "cd ../.. && yarn build && cd apps/next && TAMAGUI_TARGET=web next build",
+    "build": "TAMAGUI_TARGET=web && yarn with-env next build",
     "start": "next start",
     "serve": "NODE_ENV=production next start --port 8151",
-    "lint": "next lint"
+    "lint": "next lint",
+    "with-env": "dotenv -e ../../.env --"
   },
   "dependencies": {
     "@tamagui/next-theme": "latest",

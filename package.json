@@ -19,7 +19,10 @@
     "upgrade:tamagui": "yarn up '*tamagui*'@latest '@tamagui/*'@latest react-native-web-lite@latest",
     "upgrade:tamagui:canary": "yarn up '*tamagui*'@canary '@tamagui/*'@canary react-native-web-lite@canary",
     "check-deps": "check-dependency-version-consistency .",
-    "studio": " cd packages/db && yarn prisma:studio"
+    "studio": " cd packages/db && yarn prisma:studio",
+    "generate": "cd packages/db && yarn prisma generate",
+    "mono:build": "turbo build",
+    "dev": "turbo dev"
   },
   "resolutions": {
     "react": "^18.2.0",
@@ -32,6 +35,8 @@
     "@babel/runtime": "^7.18.9",
     "@manypkg/cli": "^0.19.1",
     "check-dependency-version-consistency": "^3.0.3",
+    "dotenv": "^16.3.1",
+    "dotenv-cli": "^7.2.1",
     "eslint": "^8.21.0",
     "node-gyp": "^9.3.1",
     "prettier": "^2.7.1",
