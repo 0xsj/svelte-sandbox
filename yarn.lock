@@ -6913,6 +6913,7 @@ __metadata:
     expo-auth-session: ^5.0.2
     expo-constants: ^14.2.1
     expo-linking: ^4.0.1
+    expo-secure-store: ^12.3.1
     react-native-safe-area-context: ^4.5.2
     solito: ^3.0.0
   languageName: unknown
@@ -10958,6 +10959,15 @@ __metadata:
     react-native-reanimated:
       optional: true
   checksum: ff092ce6b98dd73434872431c792453bc05873dea094124b5acfec72f6560452c4e00fb8e773c985e328f6f4d457e640d1a39102b68b7936dfff411a69801d51
+  languageName: node
+  linkType: hard
+
+"expo-secure-store@npm:^12.3.1":
+  version: 12.3.1
+  resolution: "expo-secure-store@npm:12.3.1"
+  peerDependencies:
+    expo: "*"
+  checksum: b4e0bb14b39d9276483e6d219a445399dbe556921fa71c10dbd7927ae8f3fb8c964fab35c7ba4a9e3acc4e944130d779edaf1337c2b8d74ed25b5621ebbb0cd4
   languageName: node
   linkType: hard
 
