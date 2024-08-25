@@ -60,5 +60,26 @@ function palindromeTry2(x: number): boolean {
   return x == reversed;
 }
 
+function palindromeTry3(x: number): boolean {
+  const str = x.toString();
+  function isPalindrome(start: number, end: number): boolean {
+    if (start >= end) return true;
+    if (str[start] !== str[end]) return false;
+    return isPalindrome(start + 1, end - 1);
+  }
+  return isPalindrome(0, str.length - 1);
+}
+
+function palindromeTry4(x: number): boolean {
+  function reverseNum(n: number, reversed: number = 0): number {
+    if (n === 0) return reversed;
+    const last = n % 10;
+    const newReversed = reversed * 10 + last;
+    return reverseNum(Math.floor(n / 10), newReversed);
+  }
+  if (x < 0) return false;
+  return x === reverseNum(x);
+}
+
 console.log(palindromeTry1(121));
 console.log(palindromeTry2(121));
