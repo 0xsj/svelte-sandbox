@@ -57,8 +57,21 @@ function twoSum2(nums: number[], target: number): number[] {
   return [];
 }
 
-// two pointer
+function twoSum3(nums: number[], target: number): number[] | undefined {
+  function findPair(
+    start: number,
+    visited: Map<number, number>
+  ): number[] | undefined {
+    if (start >= nums.length) return undefined;
+    const current = nums[start];
+    const complement = target - current;
 
+    if (visited.has(complement)) return [visited.get(complement)!, start];
+    visited.set(current, start);
 
+    return findPair(start + 1, visited);
+  }
+  return findPair(0, new Map<number, number>());
+}
 
 console.log(twoSum2(nums, target));
