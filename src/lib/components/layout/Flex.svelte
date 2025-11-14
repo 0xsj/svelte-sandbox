@@ -1,4 +1,3 @@
-<!-- src/lib/components/layout/Flex.svelte -->
 <script lang="ts">
 	type SpacingValue = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
 	type DirectionValue = 'row' | 'row-reverse' | 'column' | 'column-reverse';
@@ -10,7 +9,7 @@
 		| 'space-between'
 		| 'space-around'
 		| 'space-evenly';
-	type WrapValue = 'nowrap' | 'wrap' | 'wrap-reverse';
+	type WrapValue = 'nowrap' | 'wrap' | 'wrap-reverse' | boolean;
 
 	export let direction: DirectionValue = 'row';
 	export let align: AlignValue | undefined = undefined;
@@ -24,12 +23,15 @@
 	let className = '';
 	export { className as class };
 
+	// Normalize wrap value
+	$: wrapValue = typeof wrap === 'boolean' ? (wrap ? 'wrap' : 'nowrap') : wrap;
+
 	$: classes = [
 		inline ? 'inline-flex' : 'flex',
 		`direction-${direction}`,
 		align && `align-${align}`,
 		justify && `justify-${justify}`,
-		`wrap-${wrap}`,
+		`wrap-${wrapValue}`,
 		gap && `gap-${gap}`,
 		flex && 'flex-grow',
 		className
@@ -55,12 +57,15 @@
 	.direction-row {
 		flex-direction: row;
 	}
+
 	.direction-row-reverse {
 		flex-direction: row-reverse;
 	}
+
 	.direction-column {
 		flex-direction: column;
 	}
+
 	.direction-column-reverse {
 		flex-direction: column-reverse;
 	}
@@ -69,15 +74,19 @@
 	.align-start {
 		align-items: flex-start;
 	}
+
 	.align-center {
 		align-items: center;
 	}
+
 	.align-end {
 		align-items: flex-end;
 	}
+
 	.align-stretch {
 		align-items: stretch;
 	}
+
 	.align-baseline {
 		align-items: baseline;
 	}
@@ -86,18 +95,23 @@
 	.justify-start {
 		justify-content: flex-start;
 	}
+
 	.justify-center {
 		justify-content: center;
 	}
+
 	.justify-end {
 		justify-content: flex-end;
 	}
+
 	.justify-space-between {
 		justify-content: space-between;
 	}
+
 	.justify-space-around {
 		justify-content: space-around;
 	}
+
 	.justify-space-evenly {
 		justify-content: space-evenly;
 	}
@@ -106,9 +120,11 @@
 	.wrap-nowrap {
 		flex-wrap: nowrap;
 	}
+
 	.wrap-wrap {
 		flex-wrap: wrap;
 	}
+
 	.wrap-wrap-reverse {
 		flex-wrap: wrap-reverse;
 	}
@@ -117,24 +133,31 @@
 	.gap-xs {
 		gap: var(--spacing-xs);
 	}
+
 	.gap-sm {
 		gap: var(--spacing-sm);
 	}
+
 	.gap-md {
 		gap: var(--spacing-md);
 	}
+
 	.gap-lg {
 		gap: var(--spacing-lg);
 	}
+
 	.gap-xl {
 		gap: var(--spacing-xl);
 	}
+
 	.gap-2xl {
 		gap: var(--spacing-2xl);
 	}
+
 	.gap-3xl {
 		gap: var(--spacing-3xl);
 	}
+
 	.gap-4xl {
 		gap: var(--spacing-4xl);
 	}

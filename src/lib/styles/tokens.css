@@ -1,18 +1,33 @@
 :root {
 	--color-background: #ffffff;
 	--color-foreground: #000000;
-	--color-primary: #3b82f6;
-	--color-primary-foreground: #ffffff;
-	--color-secondary: #f3f4f6;
-	--color-secondary-foreground: #111827;
+	--color-muted: #f9fafb;
 	--color-muted-foreground: #6b7280;
 	--color-border: #e5e7eb;
-	--color-accent: #f3f4f6;
-	--color-accent-foreground: #111827;
+	--color-input: #e5e7eb;
+
+	--color-primary: #3b82f6;
+	--color-primary-foreground: #ffffff;
+
+	--color-secondary: #f3f4f6;
+	--color-secondary-foreground: #111827;
+
+	--color-success: #22c55e;
+	--color-success-foreground: #ffffff;
+
+	--color-warning: #fb923c;
+	--color-warning-foreground: #ffffff;
+
 	--color-error: #ef4444;
 	--color-error-foreground: #ffffff;
+
+	--color-accent: #f3f4f6;
+	--color-accent-foreground: #111827;
+
 	--color-ring: #3b82f6;
 
+	/* Spacing */
+	--spacing-xs: 4px;
 	--spacing-sm: 8px;
 	--spacing-md: 12px;
 	--spacing-lg: 16px;
@@ -21,15 +36,25 @@
 	--spacing-3xl: 48px;
 	--spacing-4xl: 64px;
 
+	/* Border Radius */
+	--radius-sm: 6px;
+	--radius-md: 8px;
 	--radius-lg: 12px;
+	--radius-xl: 16px;
+	--radius-full: 9999px;
 
+	/* Typography */
+	--font-size-xs: 0.75rem;
 	--font-size-sm: 0.875rem;
 	--font-size-base: 1rem;
 	--font-size-lg: 1.125rem;
 	--font-size-xl: 1.25rem;
 	--font-size-2xl: 1.5rem;
+	--font-size-3xl: 1.875rem;
+	--font-size-4xl: 2rem;
 	--font-size-5xl: 3rem;
 
+	--font-weight-normal: 400;
 	--font-weight-medium: 500;
 	--font-weight-semibold: 600;
 	--font-weight-bold: 700;
@@ -41,10 +66,20 @@
 :root.dark {
 	--color-background: #000000;
 	--color-foreground: #ffffff;
-	--color-secondary: #262626;
-	--color-secondary-foreground: #ffffff;
+	--color-muted: #171717;
 	--color-muted-foreground: #9ca3af;
 	--color-border: #262626;
+	--color-input: #262626;
+
+	--color-secondary: #262626;
+	--color-secondary-foreground: #ffffff;
+
+	--color-success: #22c55e;
+	--color-success-foreground: #ffffff;
+
+	--color-warning: #fb923c;
+	--color-warning-foreground: #ffffff;
+
 	--color-accent: #262626;
 	--color-accent-foreground: #ffffff;
 }
