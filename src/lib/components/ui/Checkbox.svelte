@@ -1,25 +1,33 @@
 <script lang="ts">
 	import type { HTMLInputAttributes } from 'svelte/elements';
 
-	interface CheckboxProps extends Omit<HTMLInputAttributes, 'size' | 'type'> {
+	interface CheckboxProps extends Omit<HTMLInputAttributes, 'size' | 'class'> {
 		size?: 'sm' | 'md' | 'lg';
 		error?: boolean;
+		disabled?: boolean;
+		checked?: boolean;
+		id?: string;
+		class?: string;
 	}
 
 	let {
 		size = 'md',
 		error = false,
 		disabled = false,
+		checked = $bindable(false),
+		id = undefined,
 		class: className = '',
 		...restProps
 	}: CheckboxProps = $props();
 
-	const classes = ['checkbox', `size-${size}`, error && 'error', disabled && 'disabled', className]
-		.filter(Boolean)
-		.join(' ');
+	let classes = $derived(
+		['checkbox', `size-${size}`, error && 'error', disabled && 'disabled', className]
+			.filter(Boolean)
+			.join(' ')
+	);
 </script>
 
-<input type="checkbox" class={classes} {disabled} {...restProps} />
+<input bind:checked type="checkbox" {id} class={classes} {disabled} {...restProps} />
 
 <style>
 	.checkbox {

@@ -1,19 +1,30 @@
 <script lang="ts">
-	export let size: 'sm' | 'md' | 'lg' = 'md';
-	export let disabled = false;
-	export let checked = false;
-	export let id: string | undefined = undefined;
+	import type { HTMLInputAttributes } from 'svelte/elements';
 
-	let className = '';
-	export { className as class };
+	interface SwitchProps extends Omit<HTMLInputAttributes, 'size' | 'class'> {
+		size?: 'sm' | 'md' | 'lg';
+		disabled?: boolean;
+		checked?: boolean;
+		id?: string;
+		class?: string;
+	}
 
-	$: switchClasses = ['switch', `size-${size}`, disabled && 'disabled', className]
-		.filter(Boolean)
-		.join(' ');
+	let {
+		size = 'md',
+		disabled = false,
+		checked = $bindable(false),
+		id = undefined,
+		class: className = '',
+		...restProps
+	}: SwitchProps = $props();
+
+	let switchClasses = $derived(
+		['switch', `size-${size}`, disabled && 'disabled', className].filter(Boolean).join(' ')
+	);
 </script>
 
 <label class="label">
-	<input bind:checked type="checkbox" class="input" {disabled} {id} {...$$restProps} on:change />
+	<input bind:checked type="checkbox" class="input" {disabled} {id} {...restProps} />
 	<span class={switchClasses} />
 </label>
 
