@@ -41,6 +41,11 @@
 	import TabsContent from '$lib/components/ui/tabs/TabsContent.svelte';
 	import RadioGroup from '$lib/components/ui/radio-group/RadioGroup.svelte';
 	import Radio from '$lib/components/ui/radio-group/Radio.svelte';
+	import Spinner from '$lib/components/ui/Spinner.svelte';
+	import Progress from '$lib/components/ui/Progress.svelte';
+	import Skeleton from '$lib/components/ui/Skeleton.svelte';
+	import Kbd from '$lib/components/ui/Kbd.svelte';
+	import EmptyState from '$lib/components/ui/EmptyState.svelte';
 
 	let dialogOpen = false;
 	let selectedTab = 'components';
@@ -48,6 +53,9 @@
 	let switchChecked = false;
 	let checkboxChecked = false;
 	let showSuccessAlert = true;
+	let progressValue = 45;
+
+	$: console.log('Selected tab:', selectedTab);
 </script>
 
 <svelte:head>
@@ -75,6 +83,7 @@
 					<TabsTrigger value="components">UI Components</TabsTrigger>
 					<TabsTrigger value="forms">Form Components</TabsTrigger>
 					<TabsTrigger value="layouts">Layout Components</TabsTrigger>
+					<TabsTrigger value="feedback">Feedback & Loading</TabsTrigger>
 				</TabsList>
 
 				<!-- UI Components Tab -->
@@ -193,9 +202,9 @@
 									{/if}
 									<Alert variant="warning">
 										<AlertTitle>Warning</AlertTitle>
-										<AlertDescription
-											>Please review your settings before proceeding.</AlertDescription
-										>
+										<AlertDescription>
+											Please review your settings before proceeding.
+										</AlertDescription>
 									</Alert>
 									<Alert variant="error">
 										<AlertTitle>Error</AlertTitle>
@@ -442,6 +451,321 @@
 											Stack Item {i + 1}
 										</Box>
 									{/each}
+								</Stack>
+							</Stack>
+						</Box>
+					</Stack>
+				</TabsContent>
+
+				<!-- Feedback & Loading Components Tab -->
+				<TabsContent value="feedback">
+					<Stack direction="vertical" gap="3xl">
+						<!-- Spinner -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Spinner</Text>
+								<Text size="sm" variant="muted"
+									>Loading indicators with different sizes and colors</Text
+								>
+
+								<Text size="base" weight="medium">Sizes</Text>
+								<Flex direction="row" gap="xl" align="center" wrap>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner size="sm" />
+										<Text size="sm" variant="muted">Small</Text>
+									</Stack>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner size="md" />
+										<Text size="sm" variant="muted">Medium</Text>
+									</Stack>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner size="lg" />
+										<Text size="sm" variant="muted">Large</Text>
+									</Stack>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner size="xl" />
+										<Text size="sm" variant="muted">X-Large</Text>
+									</Stack>
+								</Flex>
+
+								<Text size="base" weight="medium">Variants</Text>
+								<Flex direction="row" gap="xl" align="center" wrap>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner variant="primary" />
+										<Text size="sm" variant="muted">Primary</Text>
+									</Stack>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner variant="secondary" />
+										<Text size="sm" variant="muted">Secondary</Text>
+									</Stack>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Box
+											p="md"
+											style="background-color: var(--color-primary); border-radius: var(--radius-md);"
+										>
+											<Spinner variant="white" />
+										</Box>
+										<Text size="sm" variant="muted">White</Text>
+									</Stack>
+								</Flex>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Progress -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Progress</Text>
+								<Text size="sm" variant="muted">Progress bars for showing completion status</Text>
+
+								<Stack direction="vertical" gap="md">
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Basic Progress</Text>
+										<Progress value={progressValue} />
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">With Label</Text>
+										<Progress value={progressValue} showLabel />
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Sizes</Text>
+										<Progress value={75} size="sm" />
+										<Progress value={75} size="md" />
+										<Progress value={75} size="lg" />
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Variants</Text>
+										<Progress value={60} variant="primary" showLabel />
+										<Progress value={80} variant="success" showLabel />
+										<Progress value={50} variant="warning" showLabel />
+										<Progress value={30} variant="error" showLabel />
+									</Stack>
+								</Stack>
+
+								<Flex direction="row" gap="sm">
+									<Button
+										size="sm"
+										on:click={() => (progressValue = Math.max(0, progressValue - 10))}
+									>
+										Decrease
+									</Button>
+									<Button
+										size="sm"
+										on:click={() => (progressValue = Math.min(100, progressValue + 10))}
+									>
+										Increase
+									</Button>
+								</Flex>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Skeleton -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Skeleton</Text>
+								<Text size="sm" variant="muted">Loading placeholders for content</Text>
+
+								<Stack direction="vertical" gap="xl">
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Text Lines</Text>
+										<Skeleton variant="text" lines={1} />
+										<Skeleton variant="text" lines={3} />
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Circular (Avatar)</Text>
+										<Flex direction="row" gap="md">
+											<Skeleton variant="circular" width="40px" height="40px" />
+											<Skeleton variant="circular" width="48px" height="48px" />
+											<Skeleton variant="circular" width="64px" height="64px" />
+										</Flex>
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Rectangular (Cards/Images)</Text>
+										<Skeleton variant="rectangular" height="120px" />
+										<Skeleton variant="rectangular" width="300px" height="200px" />
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Card Skeleton Example</Text>
+										<Card style="max-width: 400px;">
+											<CardContent>
+												<Stack direction="vertical" gap="md">
+													<Flex direction="row" gap="md" align="start">
+														<Skeleton variant="circular" width="48px" height="48px" />
+														<Stack direction="vertical" gap="xs" style="flex: 1;">
+															<Skeleton variant="text" />
+															<Skeleton variant="text" width="60%" />
+														</Stack>
+													</Flex>
+													<Skeleton variant="rectangular" height="200px" />
+													<Skeleton variant="text" lines={2} />
+												</Stack>
+											</CardContent>
+										</Card>
+									</Stack>
+								</Stack>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Kbd -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Kbd (Keyboard Shortcuts)</Text>
+								<Text size="sm" variant="muted"
+									>Display keyboard shortcuts and key combinations</Text
+								>
+
+								<Stack direction="vertical" gap="md">
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Sizes</Text>
+										<Flex direction="row" gap="md" align="center">
+											<Kbd size="sm">Esc</Kbd>
+											<Kbd size="md">Tab</Kbd>
+											<Kbd size="lg">Enter</Kbd>
+										</Flex>
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Common Shortcuts</Text>
+										<Flex direction="row" gap="lg" wrap>
+											<Flex direction="row" gap="xs" align="center">
+												<Kbd>⌘</Kbd>
+												<Text size="sm">+</Text>
+												<Kbd>K</Kbd>
+												<Text size="sm" variant="muted">Search</Text>
+											</Flex>
+											<Flex direction="row" gap="xs" align="center">
+												<Kbd>Ctrl</Kbd>
+												<Text size="sm">+</Text>
+												<Kbd>C</Kbd>
+												<Text size="sm" variant="muted">Copy</Text>
+											</Flex>
+											<Flex direction="row" gap="xs" align="center">
+												<Kbd>Ctrl</Kbd>
+												<Text size="sm">+</Text>
+												<Kbd>V</Kbd>
+												<Text size="sm" variant="muted">Paste</Text>
+											</Flex>
+											<Flex direction="row" gap="xs" align="center">
+												<Kbd>Shift</Kbd>
+												<Text size="sm">+</Text>
+												<Kbd>Del</Kbd>
+												<Text size="sm" variant="muted">Delete</Text>
+											</Flex>
+										</Flex>
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">In Context</Text>
+										<Card style="max-width: 500px;">
+											<CardContent>
+												<Stack direction="vertical" gap="sm">
+													<Text size="sm">
+														Press <Kbd>⌘</Kbd> + <Kbd>K</Kbd> to open the command menu
+													</Text>
+													<Text size="sm">
+														Use <Kbd>↑</Kbd> and <Kbd>↓</Kbd> to navigate
+													</Text>
+													<Text size="sm">
+														Press <Kbd>Enter</Kbd> to select an item
+													</Text>
+													<Text size="sm">
+														Press <Kbd>Esc</Kbd> to close
+													</Text>
+												</Stack>
+											</CardContent>
+										</Card>
+									</Stack>
+								</Stack>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- EmptyState -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Empty State</Text>
+								<Text size="sm" variant="muted"
+									>Placeholder for when there's no data to display</Text
+								>
+
+								<Stack direction="vertical" gap="xl">
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Basic</Text>
+										<Card>
+											<CardContent>
+												<EmptyState
+													title="No results found"
+													description="Try adjusting your search terms"
+												/>
+											</CardContent>
+										</Card>
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">With Icon</Text>
+										<Card>
+											<CardContent>
+												<EmptyState
+													icon="🔍"
+													title="No items yet"
+													description="Start by creating your first item"
+												/>
+											</CardContent>
+										</Card>
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">With Action Button</Text>
+										<Card>
+											<CardContent>
+												<EmptyState
+													icon="📭"
+													title="Inbox empty"
+													description="You're all caught up! Check back later for new messages."
+												>
+													<Button slot="action" variant="primary">Compose Message</Button>
+												</EmptyState>
+											</CardContent>
+										</Card>
+									</Stack>
+
+									<Stack direction="vertical" gap="sm">
+										<Text size="base" weight="medium">Sizes</Text>
+										<Grid columns={2} columnsMobile={1} gap="lg">
+											<Card>
+												<CardContent>
+													<EmptyState
+														size="sm"
+														icon="📝"
+														title="No notes"
+														description="Create your first note"
+													/>
+												</CardContent>
+											</Card>
+											<Card>
+												<CardContent>
+													<EmptyState
+														size="lg"
+														icon="🎉"
+														title="All done!"
+														description="You've completed all your tasks"
+													/>
+												</CardContent>
+											</Card>
+										</Grid>
+									</Stack>
 								</Stack>
 							</Stack>
 						</Box>

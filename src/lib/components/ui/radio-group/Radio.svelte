@@ -43,7 +43,7 @@
 		on:change={handleChange}
 		{...$$restProps}
 	/>
-	<span class={radioClasses} />
+	<span class={radioClasses}></span>
 	{#if $$slots.default}
 		<span class="label">
 			<slot />

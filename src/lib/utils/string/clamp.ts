@@ -17,11 +17,11 @@
  * ```
  */
 export function clamp(value: number, min: number, max: number): number {
-  if (min > max) {
-    throw new Error('Min value cannot be greater than max value');
-  }
+	if (min > max) {
+		throw new Error('Min value cannot be greater than max value');
+	}
 
-  return Math.min(Math.max(value, min), max);
+	return Math.min(Math.max(value, min), max);
 }
 
 /**
@@ -39,7 +39,7 @@ export function clamp(value: number, min: number, max: number): number {
  * ```
  */
 export function clampMin(value: number, min: number): number {
-  return Math.max(value, min);
+	return Math.max(value, min);
 }
 
 /**
@@ -57,5 +57,5 @@ export function clampMin(value: number, min: number): number {
  * ```
  */
 export function clampMax(value: number, max: number): number {
-  return Math.min(value, max);
+	return Math.min(value, max);
 }

@@ -2,23 +2,23 @@
  * Options for truncating text
  */
 export interface TruncateOptions {
-  /**
-   * Maximum length of the string (including ellipsis)
-   * @default 100
-   */
-  length?: number;
+	/**
+	 * Maximum length of the string (including ellipsis)
+	 * @default 100
+	 */
+	length?: number;
 
-  /**
-   * String to append when truncated
-   * @default '...'
-   */
-  ellipsis?: string;
+	/**
+	 * String to append when truncated
+	 * @default '...'
+	 */
+	ellipsis?: string;
 
-  /**
-   * Whether to break at word boundaries
-   * @default true
-   */
-  breakWord?: boolean;
+	/**
+	 * Whether to break at word boundaries
+	 * @default true
+	 */
+	breakWord?: boolean;
 }
 
 /**
@@ -38,29 +38,29 @@ export interface TruncateOptions {
  * ```
  */
 export function truncate(str: string, options: TruncateOptions = {}): string {
-  const { length = 100, ellipsis = '...', breakWord = true } = options;
+	const { length = 100, ellipsis = '...', breakWord = true } = options;
 
-  if (!str || str.length <= length) {
-    return str;
-  }
+	if (!str || str.length <= length) {
+		return str;
+	}
 
-  const maxLength = length - ellipsis.length;
+	const maxLength = length - ellipsis.length;
 
-  if (maxLength <= 0) {
-    return ellipsis;
-  }
+	if (maxLength <= 0) {
+		return ellipsis;
+	}
 
-  let truncated = str.slice(0, maxLength);
+	let truncated = str.slice(0, maxLength);
 
-  // Break at word boundary if requested
-  if (!breakWord) {
-    const lastSpace = truncated.lastIndexOf(' ');
-    if (lastSpace > 0) {
-      truncated = truncated.slice(0, lastSpace);
-    }
-  }
+	// Break at word boundary if requested
+	if (!breakWord) {
+		const lastSpace = truncated.lastIndexOf(' ');
+		if (lastSpace > 0) {
+			truncated = truncated.slice(0, lastSpace);
+		}
+	}
 
-  return truncated.trim() + ellipsis;
+	return truncated.trim() + ellipsis;
 }
 
 /**
@@ -79,16 +79,16 @@ export function truncate(str: string, options: TruncateOptions = {}): string {
  * ```
  */
 export function truncateMiddle(str: string, options: TruncateOptions = {}): string {
-  const { length = 100, ellipsis = '...' } = options;
+	const { length = 100, ellipsis = '...' } = options;
 
-  if (!str || str.length <= length) {
-    return str;
-  }
+	if (!str || str.length <= length) {
+		return str;
+	}
 
-  const ellipsisLength = ellipsis.length;
-  const charsToShow = length - ellipsisLength;
-  const frontChars = Math.ceil(charsToShow / 2);
-  const backChars = Math.floor(charsToShow / 2);
+	const ellipsisLength = ellipsis.length;
+	const charsToShow = length - ellipsisLength;
+	const frontChars = Math.ceil(charsToShow / 2);
+	const backChars = Math.floor(charsToShow / 2);
 
-  return str.slice(0, frontChars) + ellipsis + str.slice(str.length - backChars);
+	return str.slice(0, frontChars) + ellipsis + str.slice(str.length - backChars);
 }
