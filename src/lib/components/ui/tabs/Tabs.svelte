@@ -1,11 +1,11 @@
 <script lang="ts" context="module">
-	import { writable } from 'svelte/store';
+	import { writable, type Writable } from 'svelte/store';
 	import { setContext, getContext } from 'svelte';
 
 	const TABS_KEY = Symbol('Tabs');
 
 	export interface TabsContext {
-		value: string;
+		value: Writable<string>;
 		onValueChange: (value: string) => void;
 	}
 
@@ -24,20 +24,24 @@
 
 <script lang="ts">
 	export let value: string = '';
-
 	let className = '';
 	export { className as class };
 
+	const valueStore = writable(value);
+
 	function handleValueChange(newValue: string) {
 		value = newValue;
+		valueStore.set(newValue);
 	}
 
-	$: context = {
-		value,
+	$: valueStore.set(value);
+
+	const context: TabsContext = {
+		value: valueStore,
 		onValueChange: handleValueChange
 	};
 
-	$: setTabsContext(context);
+	setTabsContext(context);
 </script>
 
 <div class="tabs {className}" {...$$restProps}>

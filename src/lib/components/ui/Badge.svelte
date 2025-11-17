@@ -18,7 +18,7 @@
 
 <span class={classes} {...$$restProps}>
 	{#if dot}
-		<span class="dot" />
+		<span class="dot"></span>
 	{/if}
 	<slot />
 </span>

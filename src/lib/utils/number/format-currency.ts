@@ -2,29 +2,29 @@
  * Options for currency formatting
  */
 export interface FormatCurrencyOptions {
-  /**
-   * Currency code (ISO 4217)
-   * @default 'USD'
-   */
-  currency?: string;
+	/**
+	 * Currency code (ISO 4217)
+	 * @default 'USD'
+	 */
+	currency?: string;
 
-  /**
-   * Locale for formatting
-   * @default 'en-US'
-   */
-  locale?: string;
+	/**
+	 * Locale for formatting
+	 * @default 'en-US'
+	 */
+	locale?: string;
 
-  /**
-   * Number of decimal places
-   * @default undefined (uses currency default)
-   */
-  minimumFractionDigits?: number;
+	/**
+	 * Number of decimal places
+	 * @default undefined (uses currency default)
+	 */
+	minimumFractionDigits?: number;
 
-  /**
-   * Maximum number of decimal places
-   * @default undefined (uses currency default)
-   */
-  maximumFractionDigits?: number;
+	/**
+	 * Maximum number of decimal places
+	 * @default undefined (uses currency default)
+	 */
+	maximumFractionDigits?: number;
 }
 
 /**
@@ -44,19 +44,19 @@ export interface FormatCurrencyOptions {
  * ```
  */
 export function formatCurrency(amount: number, options: FormatCurrencyOptions = {}): string {
-  const {
-    currency = 'USD',
-    locale = 'en-US',
-    minimumFractionDigits,
-    maximumFractionDigits,
-  } = options;
+	const {
+		currency = 'USD',
+		locale = 'en-US',
+		minimumFractionDigits,
+		maximumFractionDigits
+	} = options;
 
-  return new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency,
-    minimumFractionDigits,
-    maximumFractionDigits,
-  }).format(amount);
+	return new Intl.NumberFormat(locale, {
+		style: 'currency',
+		currency,
+		minimumFractionDigits,
+		maximumFractionDigits
+	}).format(amount);
 }
 
 /**
@@ -75,18 +75,18 @@ export function formatCurrency(amount: number, options: FormatCurrencyOptions = 
  * ```
  */
 export function formatCompactCurrency(amount: number, options: FormatCurrencyOptions = {}): string {
-  const {
-    currency = 'USD',
-    locale = 'en-US',
-    minimumFractionDigits,
-    maximumFractionDigits = 1,
-  } = options;
+	const {
+		currency = 'USD',
+		locale = 'en-US',
+		minimumFractionDigits,
+		maximumFractionDigits = 1
+	} = options;
 
-  return new Intl.NumberFormat(locale, {
-    style: 'currency',
-    currency,
-    notation: 'compact',
-    minimumFractionDigits,
-    maximumFractionDigits,
-  }).format(amount);
+	return new Intl.NumberFormat(locale, {
+		style: 'currency',
+		currency,
+		notation: 'compact',
+		minimumFractionDigits,
+		maximumFractionDigits
+	}).format(amount);
 }

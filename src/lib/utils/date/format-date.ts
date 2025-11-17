@@ -2,23 +2,23 @@
  * Options for date formatting
  */
 export interface FormatDateOptions {
-  /**
-   * Locale for formatting
-   * @default 'en-US'
-   */
-  locale?: string;
+	/**
+	 * Locale for formatting
+	 * @default 'en-US'
+	 */
+	locale?: string;
 
-  /**
-   * Date style
-   * @default 'medium'
-   */
-  dateStyle?: 'full' | 'long' | 'medium' | 'short';
+	/**
+	 * Date style
+	 * @default 'medium'
+	 */
+	dateStyle?: 'full' | 'long' | 'medium' | 'short';
 
-  /**
-   * Time style
-   * @default undefined (no time)
-   */
-  timeStyle?: 'full' | 'long' | 'medium' | 'short';
+	/**
+	 * Time style
+	 * @default undefined (no time)
+	 */
+	timeStyle?: 'full' | 'long' | 'medium' | 'short';
 }
 
 /**
@@ -38,14 +38,14 @@ export interface FormatDateOptions {
  * ```
  */
 export function formatDate(date: Date | string | number, options: FormatDateOptions = {}): string {
-  const { locale = 'en-US', dateStyle = 'medium', timeStyle } = options;
+	const { locale = 'en-US', dateStyle = 'medium', timeStyle } = options;
 
-  const dateObj = typeof date === 'string' || typeof date === 'number' ? new Date(date) : date;
+	const dateObj = typeof date === 'string' || typeof date === 'number' ? new Date(date) : date;
 
-  return new Intl.DateTimeFormat(locale, {
-    dateStyle,
-    timeStyle,
-  }).format(dateObj);
+	return new Intl.DateTimeFormat(locale, {
+		dateStyle,
+		timeStyle
+	}).format(dateObj);
 }
 
 /**
@@ -65,53 +65,53 @@ export function formatDate(date: Date | string | number, options: FormatDateOpti
  * ```
  */
 export function formatRelative(
-  date: Date | string | number,
-  options: { locale?: string } = {}
+	date: Date | string | number,
+	options: { locale?: string } = {}
 ): string {
-  const { locale = 'en-US' } = options;
+	const { locale = 'en-US' } = options;
 
-  const dateObj = typeof date === 'string' || typeof date === 'number' ? new Date(date) : date;
+	const dateObj = typeof date === 'string' || typeof date === 'number' ? new Date(date) : date;
 
-  const now = new Date();
-  const diffInSeconds = Math.floor((now.getTime() - dateObj.getTime()) / 1000);
-  const absDiff = Math.abs(diffInSeconds);
+	const now = new Date();
+	const diffInSeconds = Math.floor((now.getTime() - dateObj.getTime()) / 1000);
+	const absDiff = Math.abs(diffInSeconds);
 
-  // Determine the appropriate unit
-  const minute = 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-  const week = day * 7;
-  const month = day * 30;
-  const year = day * 365;
+	// Determine the appropriate unit
+	const minute = 60;
+	const hour = minute * 60;
+	const day = hour * 24;
+	const week = day * 7;
+	const month = day * 30;
+	const year = day * 365;
 
-  let value: number;
-  let unit: Intl.RelativeTimeFormatUnit;
+	let value: number;
+	let unit: Intl.RelativeTimeFormatUnit;
 
-  if (absDiff < minute) {
-    value = -diffInSeconds;
-    unit = 'second';
-  } else if (absDiff < hour) {
-    value = -Math.floor(diffInSeconds / minute);
-    unit = 'minute';
-  } else if (absDiff < day) {
-    value = -Math.floor(diffInSeconds / hour);
-    unit = 'hour';
-  } else if (absDiff < week) {
-    value = -Math.floor(diffInSeconds / day);
-    unit = 'day';
-  } else if (absDiff < month) {
-    value = -Math.floor(diffInSeconds / week);
-    unit = 'week';
-  } else if (absDiff < year) {
-    value = -Math.floor(diffInSeconds / month);
-    unit = 'month';
-  } else {
-    value = -Math.floor(diffInSeconds / year);
-    unit = 'year';
-  }
+	if (absDiff < minute) {
+		value = -diffInSeconds;
+		unit = 'second';
+	} else if (absDiff < hour) {
+		value = -Math.floor(diffInSeconds / minute);
+		unit = 'minute';
+	} else if (absDiff < day) {
+		value = -Math.floor(diffInSeconds / hour);
+		unit = 'hour';
+	} else if (absDiff < week) {
+		value = -Math.floor(diffInSeconds / day);
+		unit = 'day';
+	} else if (absDiff < month) {
+		value = -Math.floor(diffInSeconds / week);
+		unit = 'week';
+	} else if (absDiff < year) {
+		value = -Math.floor(diffInSeconds / month);
+		unit = 'month';
+	} else {
+		value = -Math.floor(diffInSeconds / year);
+		unit = 'year';
+	}
 
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-  return rtf.format(value, unit);
+	const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+	return rtf.format(value, unit);
 }
 
 /**
@@ -130,23 +130,23 @@ export function formatRelative(
  * ```
  */
 export function formatDuration(ms: number): string {
-  if (ms < 1000) {
-    return `${ms}ms`;
-  }
+	if (ms < 1000) {
+		return `${ms}ms`;
+	}
 
-  const seconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
+	const seconds = Math.floor(ms / 1000);
+	const minutes = Math.floor(seconds / 60);
+	const hours = Math.floor(minutes / 60);
+	const days = Math.floor(hours / 24);
 
-  const parts: string[] = [];
+	const parts: string[] = [];
 
-  if (days > 0) parts.push(`${days}d`);
-  if (hours % 24 > 0) parts.push(`${hours % 24}h`);
-  if (minutes % 60 > 0) parts.push(`${minutes % 60}m`);
-  if (seconds % 60 > 0 && days === 0) parts.push(`${seconds % 60}s`);
+	if (days > 0) parts.push(`${days}d`);
+	if (hours % 24 > 0) parts.push(`${hours % 24}h`);
+	if (minutes % 60 > 0) parts.push(`${minutes % 60}m`);
+	if (seconds % 60 > 0 && days === 0) parts.push(`${seconds % 60}s`);
 
-  return parts.join(' ') || '0s';
+	return parts.join(' ') || '0s';
 }
 
 /**
@@ -165,7 +165,7 @@ export function formatDuration(ms: number): string {
  * ```
  */
 export function isValidDate(date: Date | string | number): boolean {
-  const dateObj = typeof date === 'string' || typeof date === 'number' ? new Date(date) : date;
+	const dateObj = typeof date === 'string' || typeof date === 'number' ? new Date(date) : date;
 
-  return dateObj instanceof Date && !isNaN(dateObj.getTime());
+	return dateObj instanceof Date && !isNaN(dateObj.getTime());
 }

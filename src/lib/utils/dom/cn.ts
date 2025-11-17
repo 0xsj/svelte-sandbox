@@ -20,18 +20,18 @@ type ClassValue = string | number | boolean | undefined | null | ClassValue[];
  * ```
  */
 export function cn(...classes: ClassValue[]): string {
-  const result: string[] = [];
+	const result: string[] = [];
 
-  for (const cls of classes) {
-    if (!cls) continue;
+	for (const cls of classes) {
+		if (!cls) continue;
 
-    if (typeof cls === 'string' || typeof cls === 'number') {
-      result.push(String(cls));
-    } else if (Array.isArray(cls)) {
-      const nested = cn(...cls);
-      if (nested) result.push(nested);
-    }
-  }
+		if (typeof cls === 'string' || typeof cls === 'number') {
+			result.push(String(cls));
+		} else if (Array.isArray(cls)) {
+			const nested = cn(...cls);
+			if (nested) result.push(nested);
+		}
+	}
 
-  return result.join(' ');
+	return result.join(' ');
 }

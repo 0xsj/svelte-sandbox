@@ -16,7 +16,7 @@
 	aria-orientation={decorative ? undefined : orientation}
 	class={classes}
 	{...$$restProps}
-/>
+></div>
 
 <style>
 	.separator {

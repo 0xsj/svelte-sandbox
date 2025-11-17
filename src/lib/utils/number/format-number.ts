@@ -2,29 +2,29 @@
  * Options for number formatting
  */
 export interface FormatNumberOptions {
-  /**
-   * Locale for formatting
-   * @default 'en-US'
-   */
-  locale?: string;
+	/**
+	 * Locale for formatting
+	 * @default 'en-US'
+	 */
+	locale?: string;
 
-  /**
-   * Minimum number of fraction digits
-   * @default undefined
-   */
-  minimumFractionDigits?: number;
+	/**
+	 * Minimum number of fraction digits
+	 * @default undefined
+	 */
+	minimumFractionDigits?: number;
 
-  /**
-   * Maximum number of fraction digits
-   * @default undefined
-   */
-  maximumFractionDigits?: number;
+	/**
+	 * Maximum number of fraction digits
+	 * @default undefined
+	 */
+	maximumFractionDigits?: number;
 
-  /**
-   * Whether to use grouping separators (commas)
-   * @default true
-   */
-  useGrouping?: boolean;
+	/**
+	 * Whether to use grouping separators (commas)
+	 * @default true
+	 */
+	useGrouping?: boolean;
 }
 
 /**
@@ -45,18 +45,18 @@ export interface FormatNumberOptions {
  * ```
  */
 export function formatNumber(value: number, options: FormatNumberOptions = {}): string {
-  const {
-    locale = 'en-US',
-    minimumFractionDigits,
-    maximumFractionDigits,
-    useGrouping = true,
-  } = options;
+	const {
+		locale = 'en-US',
+		minimumFractionDigits,
+		maximumFractionDigits,
+		useGrouping = true
+	} = options;
 
-  return new Intl.NumberFormat(locale, {
-    minimumFractionDigits,
-    maximumFractionDigits,
-    useGrouping,
-  }).format(value);
+	return new Intl.NumberFormat(locale, {
+		minimumFractionDigits,
+		maximumFractionDigits,
+		useGrouping
+	}).format(value);
 }
 
 /**
@@ -75,13 +75,13 @@ export function formatNumber(value: number, options: FormatNumberOptions = {}): 
  * ```
  */
 export function formatPercentage(value: number, options: FormatNumberOptions = {}): string {
-  const { locale = 'en-US', minimumFractionDigits = 0, maximumFractionDigits = 0 } = options;
+	const { locale = 'en-US', minimumFractionDigits = 0, maximumFractionDigits = 0 } = options;
 
-  return new Intl.NumberFormat(locale, {
-    style: 'percent',
-    minimumFractionDigits,
-    maximumFractionDigits,
-  }).format(value);
+	return new Intl.NumberFormat(locale, {
+		style: 'percent',
+		minimumFractionDigits,
+		maximumFractionDigits
+	}).format(value);
 }
 
 /**
@@ -101,13 +101,13 @@ export function formatPercentage(value: number, options: FormatNumberOptions = {
  * ```
  */
 export function formatCompactNumber(value: number, options: FormatNumberOptions = {}): string {
-  const { locale = 'en-US', minimumFractionDigits, maximumFractionDigits = 1 } = options;
+	const { locale = 'en-US', minimumFractionDigits, maximumFractionDigits = 1 } = options;
 
-  return new Intl.NumberFormat(locale, {
-    notation: 'compact',
-    minimumFractionDigits,
-    maximumFractionDigits,
-  }).format(value);
+	return new Intl.NumberFormat(locale, {
+		notation: 'compact',
+		minimumFractionDigits,
+		maximumFractionDigits
+	}).format(value);
 }
 
 /**
@@ -128,13 +128,13 @@ export function formatCompactNumber(value: number, options: FormatNumberOptions 
  * ```
  */
 export function formatBytes(bytes: number, decimals: number = 1): string {
-  if (bytes === 0) return '0 Bytes';
-  if (bytes < 0) return '-' + formatBytes(-bytes, decimals);
+	if (bytes === 0) return '0 Bytes';
+	if (bytes < 0) return '-' + formatBytes(-bytes, decimals);
 
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  const value = bytes / Math.pow(k, i);
+	const k = 1024;
+	const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
+	const i = Math.floor(Math.log(bytes) / Math.log(k));
+	const value = bytes / Math.pow(k, i);
 
-  return `${value.toFixed(decimals)} ${sizes[i]}`;
+	return `${value.toFixed(decimals)} ${sizes[i]}`;
 }

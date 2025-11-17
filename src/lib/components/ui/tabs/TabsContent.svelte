@@ -3,12 +3,11 @@
 
 	export let value: string;
 
-	const context = getTabsContext();
-
+	const { value: tabValue } = getTabsContext();
 	let className = '';
 	export { className as class };
 
-	$: isActive = context.value === value;
+	$: isActive = $tabValue === value;
 </script>
 
 {#if isActive}

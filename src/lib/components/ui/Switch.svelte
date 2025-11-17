@@ -25,7 +25,7 @@
 
 <label class="label">
 	<input bind:checked type="checkbox" class="input" {disabled} {id} {...restProps} />
-	<span class={switchClasses} />
+	<span class={switchClasses}></span>
 </label>
 
 <style>

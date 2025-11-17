@@ -8,12 +8,12 @@ export type { TruncateOptions, SlugOptions } from './string';
 
 // Number utilities
 export {
-  formatCurrency,
-  formatCompactCurrency,
-  formatNumber,
-  formatPercentage,
-  formatCompactNumber,
-  formatBytes,
+	formatCurrency,
+	formatCompactCurrency,
+	formatNumber,
+	formatPercentage,
+	formatCompactNumber,
+	formatBytes
 } from './number';
 export { clamp, clampMin, clampMax } from './number';
 export type { FormatCurrencyOptions, FormatNumberOptions } from './number';

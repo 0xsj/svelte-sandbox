@@ -46,7 +46,7 @@
 	{disabled}
 	on:input={handleInput}
 	{...$$restProps}
-/>
+></textarea>
 
 <style>
 	.textarea {

@@ -11,7 +11,7 @@
 	}
 </script>
 
-<div class="overlay {className}" on:click={handleClick} {...$$restProps} />
+<div class="overlay {className}" on:click={handleClick} {...$$restProps}></div>
 
 <style>
 	.overlay {

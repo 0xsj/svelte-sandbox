@@ -18,10 +18,15 @@
 	}
 </script>
 
-<div class="tooltip-wrapper" on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>
+<div
+	class="tooltip-wrapper"
+	role="group"
+	on:mouseenter={handleMouseEnter}
+	on:mouseleave={handleMouseLeave}
+>
 	<slot />
 	{#if showTooltip}
-		<div class="tooltip {position}">
+		<div class="tooltip {position}" role="tooltip">
 			{content}
 		</div>
 	{/if}

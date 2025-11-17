@@ -3,30 +3,30 @@
  * Adjust based on your actual API response structure
  */
 export interface ApiResponse<T> {
-  data: T;
-  message?: string;
+	data: T;
+	message?: string;
 }
 
 /**
  * Paginated response structure
  */
 export interface PaginatedResponse<T> {
-  data: T[];
-  pagination: {
-    page: number;
-    pageSize: number;
-    total: number;
-    totalPages: number;
-  };
+	data: T[];
+	pagination: {
+		page: number;
+		pageSize: number;
+		total: number;
+		totalPages: number;
+	};
 }
 
 /**
  * Request options for API calls
  */
 export interface RequestOptions {
-  signal?: AbortSignal;
-  headers?: Record<string, string>;
-  params?: Record<string, string | number | boolean>;
+	signal?: AbortSignal;
+	headers?: Record<string, string>;
+	params?: Record<string, string | number | boolean>;
 }
 
 /**
@@ -38,6 +38,6 @@ export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
  * Request configuration
  */
 export interface RequestConfig extends RequestOptions {
-  method: HttpMethod;
-  body?: unknown;
+	method: HttpMethod;
+	body?: unknown;
 }
