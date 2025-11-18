@@ -12,6 +12,8 @@
 	import Select from '$lib/components/forms/Select.svelte';
 	import Checkbox from '$lib/components/forms/Checkbox.svelte';
 	import Switch from '$lib/components/forms/Switch.svelte';
+	import Slider from '$lib/components/forms/Slider.svelte';
+	import Toggle from '$lib/components/forms/Toggle.svelte';
 	import Badge from '$lib/components/display/Badge.svelte';
 	import Separator from '$lib/components/display/Separator.svelte';
 	import Avatar from '$lib/components/display/Avatar.svelte';
@@ -46,16 +48,65 @@
 	import Skeleton from '$lib/components/feedback/Skeleton.svelte';
 	import Kbd from '$lib/components/display/Kbd.svelte';
 	import EmptyState from '$lib/components/feedback/EmptyState.svelte';
+	import Table from '$lib/components/display/table/Table.svelte';
+	import TableHeader from '$lib/components/display/table/TableHeader.svelte';
+	import TableBody from '$lib/components/display/table/TableBody.svelte';
+	import TableRow from '$lib/components/display/table/TableRow.svelte';
+	import TableHead from '$lib/components/display/table/TableHead.svelte';
+	import TableCell from '$lib/components/display/table/TableCell.svelte';
+	import TableCaption from '$lib/components/display/table/TableCaption.svelte';
+	import Accordion from '$lib/components/display/accordion/Accordion.svelte';
+	import AccordionItem from '$lib/components/display/accordion/AccordionItem.svelte';
+	import Popover from '$lib/components/overlays/popover/Popover.svelte';
+	import PopoverTrigger from '$lib/components/overlays/popover/PopoverTrigger.svelte';
+	import PopoverContent from '$lib/components/overlays/popover/PopoverContent.svelte';
+	import DropdownMenu from '$lib/components/overlays/dropdown-menu/DropdownMenu.svelte';
+	import DropdownMenuTrigger from '$lib/components/overlays/dropdown-menu/DropdownMenuTrigger.svelte';
+	import DropdownMenuContent from '$lib/components/overlays/dropdown-menu/DropdownMenuContent.svelte';
+	import DropdownMenuItem from '$lib/components/overlays/dropdown-menu/DropdownMenuItem.svelte';
+	import DropdownMenuSeparator from '$lib/components/overlays/dropdown-menu/DropdownMenuSeparator.svelte';
+	import DropdownMenuLabel from '$lib/components/overlays/dropdown-menu/DropdownMenuLabel.svelte';
+	import Sheet from '$lib/components/overlays/sheet/Sheet.svelte';
+	import SheetTrigger from '$lib/components/overlays/sheet/SheetTrigger.svelte';
+	import SheetContent from '$lib/components/overlays/sheet/SheetContent.svelte';
+	import SheetClose from '$lib/components/overlays/sheet/SheetClose.svelte';
+	import Combobox from '$lib/components/forms/combobox/Combobox.svelte';
+	import ComboboxTrigger from '$lib/components/forms/combobox/ComboboxTrigger.svelte';
+	import ComboboxContent from '$lib/components/forms/combobox/ComboboxContent.svelte';
+	import ComboboxInput from '$lib/components/forms/combobox/ComboboxInput.svelte';
+	import ComboboxItem from '$lib/components/forms/combobox/ComboboxItem.svelte';
+	import Breadcrumbs from '$lib/components/navigation/breadcrumbs/Breadcrumbs.svelte';
+	import BreadcrumbItem from '$lib/components/navigation/breadcrumbs/BreadcrumbItem.svelte';
+	import Pagination from '$lib/components/navigation/Pagination.svelte';
+	import { toast } from '$lib/components/feedback/toast/toast.store';
 
+	let selectedTab = 'buttons';
 	let dialogOpen = false;
-	let selectedTab = 'components';
+	let sheetOpen = false;
 	let radioValue = 'option1';
 	let switchChecked = false;
 	let checkboxChecked = false;
 	let showSuccessAlert = true;
 	let progressValue = 45;
+	let sliderValue = 50;
+	let togglePressed = false;
+	let comboboxValue = '';
+	let currentPage = 1;
 
-	$: console.log('Selected tab:', selectedTab);
+	const frameworks = [
+		{ value: 'next', label: 'Next.js' },
+		{ value: 'sveltekit', label: 'SvelteKit' },
+		{ value: 'nuxt', label: 'Nuxt.js' },
+		{ value: 'remix', label: 'Remix' },
+		{ value: 'astro', label: 'Astro' }
+	];
+
+	const tableData = [
+		{ invoice: 'INV001', status: 'Paid', method: 'Credit Card', amount: '$250.00' },
+		{ invoice: 'INV002', status: 'Pending', method: 'PayPal', amount: '$150.00' },
+		{ invoice: 'INV003', status: 'Paid', method: 'Bank Transfer', amount: '$350.00' },
+		{ invoice: 'INV004', status: 'Failed', method: 'Credit Card', amount: '$450.00' }
+	];
 </script>
 
 <svelte:head>
@@ -80,14 +131,16 @@
 			<!-- Tabs Navigation -->
 			<Tabs bind:value={selectedTab}>
 				<TabsList>
-					<TabsTrigger value="components">UI Components</TabsTrigger>
-					<TabsTrigger value="forms">Form Components</TabsTrigger>
-					<TabsTrigger value="layouts">Layout Components</TabsTrigger>
+					<TabsTrigger value="buttons">Buttons & Forms</TabsTrigger>
+					<TabsTrigger value="display">Display & Data</TabsTrigger>
+					<TabsTrigger value="overlays">Overlays & Menus</TabsTrigger>
 					<TabsTrigger value="feedback">Feedback & Loading</TabsTrigger>
+					<TabsTrigger value="navigation">Navigation</TabsTrigger>
+					<TabsTrigger value="layout">Layout</TabsTrigger>
 				</TabsList>
 
-				<!-- UI Components Tab -->
-				<TabsContent value="components">
+				<!-- Buttons & Forms Tab -->
+				<TabsContent value="buttons">
 					<Stack direction="vertical" gap="3xl">
 						<!-- Buttons -->
 						<Box as="section">
@@ -114,13 +167,132 @@
 
 						<Separator />
 
+						<!-- Form Inputs -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Form Inputs</Text>
+								<Card style="max-width: 600px;">
+									<CardContent>
+										<Stack direction="vertical" gap="lg">
+											<!-- Text Input -->
+											<Stack direction="vertical" gap="sm">
+												<Label htmlFor="name" required>Full Name</Label>
+												<Input id="name" type="text" placeholder="John Doe" />
+											</Stack>
+
+											<!-- Email Input -->
+											<Stack direction="vertical" gap="sm">
+												<Label htmlFor="email" required>Email Address</Label>
+												<Input id="email" type="email" placeholder="you@example.com" />
+											</Stack>
+
+											<!-- Select -->
+											<Stack direction="vertical" gap="sm">
+												<Label htmlFor="country">Country</Label>
+												<Select id="country">
+													<option value="">Select a country</option>
+													<option value="us">United States</option>
+													<option value="uk">United Kingdom</option>
+													<option value="ca">Canada</option>
+													<option value="au">Australia</option>
+												</Select>
+											</Stack>
+
+											<!-- Textarea -->
+											<Stack direction="vertical" gap="sm">
+												<Label htmlFor="message">Message</Label>
+												<Textarea id="message" placeholder="Enter your message..." />
+											</Stack>
+										</Stack>
+									</CardContent>
+								</Card>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Advanced Form Controls -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Advanced Form Controls</Text>
+
+								<Card style="max-width: 600px;">
+									<CardContent>
+										<Stack direction="vertical" gap="lg">
+											<!-- Radio Group -->
+											<Stack direction="vertical" gap="sm">
+												<Label>Choose an option</Label>
+												<RadioGroup name="options" bind:value={radioValue}>
+													<Radio value="option1">Option 1</Radio>
+													<Radio value="option2">Option 2</Radio>
+													<Radio value="option3">Option 3</Radio>
+												</RadioGroup>
+											</Stack>
+
+											<!-- Checkbox -->
+											<Flex direction="row" gap="sm" align="center">
+												<Checkbox id="terms" bind:checked={checkboxChecked} />
+												<Label htmlFor="terms">I agree to the terms and conditions</Label>
+											</Flex>
+
+											<!-- Switch -->
+											<Flex direction="row" justify="space-between" align="center">
+												<Label htmlFor="notifications">Enable notifications</Label>
+												<Switch id="notifications" bind:checked={switchChecked} />
+											</Flex>
+
+											<!-- Slider -->
+											<Stack direction="vertical" gap="sm">
+												<Label>Volume: {sliderValue}</Label>
+												<Slider bind:value={sliderValue} showValue />
+											</Stack>
+
+											<!-- Toggle -->
+											<Stack direction="vertical" gap="sm">
+												<Label>Toggle Button</Label>
+												<Flex direction="row" gap="sm">
+													<Toggle bind:pressed={togglePressed}>
+														<strong>B</strong>
+													</Toggle>
+													<Toggle size="md" variant="outline">
+														<em>I</em>
+													</Toggle>
+													<Toggle size="md" variant="outline">
+														<u>U</u>
+													</Toggle>
+												</Flex>
+											</Stack>
+
+											<!-- Combobox -->
+											<Stack direction="vertical" gap="sm">
+												<Label>Framework</Label>
+												<Combobox bind:value={comboboxValue}>
+													<ComboboxTrigger placeholder="Select framework..." />
+													<ComboboxContent>
+														<ComboboxInput placeholder="Search frameworks..." />
+														{#each frameworks as framework}
+															<ComboboxItem value={framework.value} label={framework.label}>
+																{framework.label}
+															</ComboboxItem>
+														{/each}
+													</ComboboxContent>
+												</Combobox>
+											</Stack>
+										</Stack>
+									</CardContent>
+								</Card>
+							</Stack>
+						</Box>
+					</Stack>
+				</TabsContent>
+
+				<!-- Display & Data Tab -->
+				<TabsContent value="display">
+					<Stack direction="vertical" gap="3xl">
 						<!-- Typography -->
 						<Box as="section">
 							<Stack direction="vertical" gap="lg">
 								<Text size="2xl" weight="semibold">Typography</Text>
-								<Text size="sm" variant="muted">
-									Text component with various sizes, weights, and color variants
-								</Text>
 								<Stack direction="vertical" gap="sm">
 									<Text size="5xl" weight="bold">Heading 5XL Bold</Text>
 									<Text size="3xl" weight="semibold">Heading 3XL Semibold</Text>
@@ -136,11 +308,10 @@
 
 						<Separator />
 
-						<!-- Badges -->
+						<!-- Badges & Avatars -->
 						<Box as="section">
 							<Stack direction="vertical" gap="lg">
 								<Text size="2xl" weight="semibold">Badges</Text>
-								<Text size="sm" variant="muted">Status indicators and labels</Text>
 								<Flex direction="row" gap="md" wrap>
 									<Badge variant="default">Default</Badge>
 									<Badge variant="primary">Primary</Badge>
@@ -150,7 +321,7 @@
 									<Badge variant="error">Error</Badge>
 									<Badge variant="outline">Outline</Badge>
 								</Flex>
-								<Text size="sm" variant="muted">With status dots:</Text>
+								<Text size="base" weight="medium">With status dots:</Text>
 								<Flex direction="row" gap="md" wrap>
 									<Badge variant="success" dot>Active</Badge>
 									<Badge variant="warning" dot>Pending</Badge>
@@ -165,7 +336,6 @@
 						<Box as="section">
 							<Stack direction="vertical" gap="lg">
 								<Text size="2xl" weight="semibold">Avatars</Text>
-								<Text size="sm" variant="muted">User profile pictures with fallbacks</Text>
 								<Flex direction="row" gap="md" align="center" wrap>
 									<Avatar fallback="JD" size="sm" />
 									<Avatar fallback="AB" size="md" />
@@ -177,76 +347,10 @@
 
 						<Separator />
 
-						<!-- Alerts -->
-						<Box as="section">
-							<Stack direction="vertical" gap="lg">
-								<Text size="2xl" weight="semibold">Alerts</Text>
-								<Text size="sm" variant="muted">Contextual feedback messages</Text>
-								<Stack direction="vertical" gap="md">
-									<Alert variant="default">
-										<AlertTitle>Default Alert</AlertTitle>
-										<AlertDescription>This is a default alert message.</AlertDescription>
-									</Alert>
-									<Alert variant="info">
-										<AlertTitle>Info</AlertTitle>
-										<AlertDescription>
-											This is an informational alert with helpful context.
-										</AlertDescription>
-									</Alert>
-									{#if showSuccessAlert}
-										<Alert variant="success" dismissible onClose={() => (showSuccessAlert = false)}>
-											<AlertTitle>Success!</AlertTitle>
-											<AlertDescription>Your changes have been saved successfully.</AlertDescription
-											>
-										</Alert>
-									{/if}
-									<Alert variant="warning">
-										<AlertTitle>Warning</AlertTitle>
-										<AlertDescription>
-											Please review your settings before proceeding.
-										</AlertDescription>
-									</Alert>
-									<Alert variant="error">
-										<AlertTitle>Error</AlertTitle>
-										<AlertDescription>
-											An error occurred while processing your request.
-										</AlertDescription>
-									</Alert>
-								</Stack>
-							</Stack>
-						</Box>
-
-						<Separator />
-
-						<!-- Tooltips -->
-						<Box as="section">
-							<Stack direction="vertical" gap="lg">
-								<Text size="2xl" weight="semibold">Tooltips</Text>
-								<Text size="sm" variant="muted">Hover tooltips with different positions</Text>
-								<Flex direction="row" gap="lg" wrap>
-									<Tooltip content="Tooltip on top" position="top">
-										<Button variant="outline">Hover (Top)</Button>
-									</Tooltip>
-									<Tooltip content="Tooltip on bottom" position="bottom">
-										<Button variant="outline">Hover (Bottom)</Button>
-									</Tooltip>
-									<Tooltip content="Tooltip on left" position="left">
-										<Button variant="outline">Hover (Left)</Button>
-									</Tooltip>
-									<Tooltip content="Tooltip on right" position="right">
-										<Button variant="outline">Hover (Right)</Button>
-									</Tooltip>
-								</Flex>
-							</Stack>
-						</Box>
-
-						<Separator />
-
 						<!-- Cards -->
 						<Box as="section">
 							<Stack direction="vertical" gap="lg">
 								<Text size="2xl" weight="semibold">Cards</Text>
-								<Text size="sm" variant="muted">Content containers with headers and footers</Text>
 								<Grid columns={3} columnsMobile={1} columnsTablet={2} gap="lg">
 									<Card>
 										<CardHeader>
@@ -278,30 +382,105 @@
 										</CardContent>
 									</Card>
 								</Grid>
-
-								<Card style="max-width: 500px;">
-									<CardHeader>
-										<Flex direction="row" justify="space-between" align="center">
-											<div>
-												<CardTitle>Card with Footer</CardTitle>
-												<CardDescription>Includes action buttons</CardDescription>
-											</div>
-											<Badge variant="success">Active</Badge>
-										</Flex>
-									</CardHeader>
-									<CardContent>
-										<Text size="sm">This card demonstrates a footer with action buttons.</Text>
-									</CardContent>
-									<CardFooter>
-										<Button variant="outline" size="sm">Cancel</Button>
-										<Button variant="primary" size="sm" style="margin-left: auto;">Save</Button>
-									</CardFooter>
-								</Card>
 							</Stack>
 						</Box>
 
 						<Separator />
 
+						<!-- Table -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Table</Text>
+								<Table>
+									<TableCaption>A list of recent transactions</TableCaption>
+									<TableHeader>
+										<TableRow>
+											<TableHead>Invoice</TableHead>
+											<TableHead>Status</TableHead>
+											<TableHead>Method</TableHead>
+											<TableHead align="right">Amount</TableHead>
+										</TableRow>
+									</TableHeader>
+									<TableBody>
+										{#each tableData as row}
+											<TableRow>
+												<TableCell>{row.invoice}</TableCell>
+												<TableCell>
+													<Badge
+														variant={row.status === 'Paid'
+															? 'success'
+															: row.status === 'Pending'
+																? 'warning'
+																: 'error'}
+													>
+														{row.status}
+													</Badge>
+												</TableCell>
+												<TableCell>{row.method}</TableCell>
+												<TableCell align="right">{row.amount}</TableCell>
+											</TableRow>
+										{/each}
+									</TableBody>
+								</Table>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Accordion -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Accordion</Text>
+								<Text size="sm" variant="muted">Single mode - only one open at a time</Text>
+								<Accordion type="single">
+									<AccordionItem value="item-1" title="What is SvelteKit?">
+										SvelteKit is a framework for building web applications of all sizes, with a
+										beautiful development experience and flexible filesystem-based routing.
+									</AccordionItem>
+									<AccordionItem value="item-2" title="How do I get started?">
+										Install SvelteKit with npm create svelte@latest, then follow the prompts to set
+										up your project.
+									</AccordionItem>
+									<AccordionItem value="item-3" title="Where can I learn more?">
+										Visit the official documentation at kit.svelte.dev for comprehensive guides and
+										tutorials.
+									</AccordionItem>
+								</Accordion>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Kbd -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Keyboard Shortcuts</Text>
+								<Flex direction="row" gap="lg" wrap>
+									<Flex direction="row" gap="xs" align="center">
+										<Kbd>⌘</Kbd>
+										<Text size="sm">+</Text>
+										<Kbd>K</Kbd>
+										<Text size="sm" variant="muted">Search</Text>
+									</Flex>
+									<Flex direction="row" gap="xs" align="center">
+										<Kbd>Ctrl</Kbd>
+										<Text size="sm">+</Text>
+										<Kbd>C</Kbd>
+										<Text size="sm" variant="muted">Copy</Text>
+									</Flex>
+									<Flex direction="row" gap="xs" align="center">
+										<Kbd>Esc</Kbd>
+										<Text size="sm" variant="muted">Close</Text>
+									</Flex>
+								</Flex>
+							</Stack>
+						</Box>
+					</Stack>
+				</TabsContent>
+
+				<!-- Overlays & Menus Tab -->
+				<TabsContent value="overlays">
+					<Stack direction="vertical" gap="3xl">
 						<!-- Dialog -->
 						<Box as="section">
 							<Stack direction="vertical" gap="lg">
@@ -331,81 +510,326 @@
 								</Dialog>
 							</Stack>
 						</Box>
+
+						<Separator />
+
+						<!-- Sheet -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Sheet</Text>
+								<Text size="sm" variant="muted">Slide-in panels from the side</Text>
+								<Flex direction="row" gap="md" wrap>
+									<Sheet bind:open={sheetOpen}>
+										<SheetTrigger>
+											<Button variant="outline">Open Sheet (Right)</Button>
+										</SheetTrigger>
+										<SheetContent side="right">
+											<SheetClose />
+											<Stack direction="vertical" gap="lg">
+												<Text size="xl" weight="semibold">Sheet Title</Text>
+												<Text size="sm" variant="muted">
+													This is a sheet that slides in from the right side of the screen.
+												</Text>
+												<Separator />
+												<Text size="sm">
+													Sheets are useful for forms, filters, or any content that needs temporary
+													focus without completely blocking the main view.
+												</Text>
+											</Stack>
+										</SheetContent>
+									</Sheet>
+								</Flex>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Dropdown Menu -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Dropdown Menu</Text>
+								<Text size="sm" variant="muted">Action menus with items and separators</Text>
+								<DropdownMenu>
+									<DropdownMenuTrigger>
+										<Button variant="outline">Open Menu</Button>
+									</DropdownMenuTrigger>
+									<DropdownMenuContent side="bottom" align="start">
+										<DropdownMenuLabel>My Account</DropdownMenuLabel>
+										<DropdownMenuItem>Profile</DropdownMenuItem>
+										<DropdownMenuItem>Settings</DropdownMenuItem>
+										<DropdownMenuSeparator />
+										<DropdownMenuItem>Logout</DropdownMenuItem>
+									</DropdownMenuContent>
+								</DropdownMenu>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Popover -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Popover</Text>
+								<Text size="sm" variant="muted">Floating content boxes</Text>
+								<Popover>
+									<PopoverTrigger>
+										<Button variant="outline">Open Popover</Button>
+									</PopoverTrigger>
+									<PopoverContent side="bottom" align="center">
+										<Stack direction="vertical" gap="sm">
+											<Text size="base" weight="semibold">Popover Title</Text>
+											<Text size="sm" variant="muted">
+												This is popover content that floats above other elements.
+											</Text>
+										</Stack>
+									</PopoverContent>
+								</Popover>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Tooltip -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Tooltips</Text>
+								<Text size="sm" variant="muted">Hover tooltips with different positions</Text>
+								<Flex direction="row" gap="lg" wrap>
+									<Tooltip content="Tooltip on top" position="top">
+										<Button variant="outline">Hover (Top)</Button>
+									</Tooltip>
+									<Tooltip content="Tooltip on bottom" position="bottom">
+										<Button variant="outline">Hover (Bottom)</Button>
+									</Tooltip>
+									<Tooltip content="Tooltip on left" position="left">
+										<Button variant="outline">Hover (Left)</Button>
+									</Tooltip>
+									<Tooltip content="Tooltip on right" position="right">
+										<Button variant="outline">Hover (Right)</Button>
+									</Tooltip>
+								</Flex>
+							</Stack>
+						</Box>
 					</Stack>
 				</TabsContent>
 
-				<!-- Form Components Tab -->
-				<TabsContent value="forms">
+				<!-- Feedback & Loading Tab -->
+				<TabsContent value="feedback">
 					<Stack direction="vertical" gap="3xl">
-						<Card style="max-width: 600px;">
-							<CardHeader>
-								<CardTitle>Form Components</CardTitle>
-								<CardDescription>All form inputs and controls</CardDescription>
-							</CardHeader>
-							<CardContent>
-								<Stack direction="vertical" gap="lg">
-									<!-- Text Input -->
-									<Stack direction="vertical" gap="sm">
-										<Label htmlFor="name" required>Full Name</Label>
-										<Input id="name" type="text" placeholder="John Doe" />
-									</Stack>
-
-									<!-- Email Input -->
-									<Stack direction="vertical" gap="sm">
-										<Label htmlFor="email" required>Email Address</Label>
-										<Input id="email" type="email" placeholder="you@example.com" />
-									</Stack>
-
-									<!-- Select -->
-									<Stack direction="vertical" gap="sm">
-										<Label htmlFor="country">Country</Label>
-										<Select id="country">
-											<option value="">Select a country</option>
-											<option value="us">United States</option>
-											<option value="uk">United Kingdom</option>
-											<option value="ca">Canada</option>
-											<option value="au">Australia</option>
-										</Select>
-									</Stack>
-
-									<!-- Textarea -->
-									<Stack direction="vertical" gap="sm">
-										<Label htmlFor="message">Message</Label>
-										<Textarea id="message" placeholder="Enter your message..." />
-									</Stack>
-
-									<!-- Radio Group -->
-									<Stack direction="vertical" gap="sm">
-										<Label>Choose an option</Label>
-										<RadioGroup name="options" bind:value={radioValue}>
-											<Radio value="option1">Option 1</Radio>
-											<Radio value="option2">Option 2</Radio>
-											<Radio value="option3">Option 3</Radio>
-										</RadioGroup>
-									</Stack>
-
-									<!-- Checkbox -->
-									<Flex direction="row" gap="sm" align="center">
-										<Checkbox id="terms" bind:checked={checkboxChecked} />
-										<Label htmlFor="terms">I agree to the terms and conditions</Label>
-									</Flex>
-
-									<!-- Switch -->
-									<Flex direction="row" justify="space-between" align="center">
-										<Label htmlFor="notifications">Enable notifications</Label>
-										<Switch id="notifications" bind:checked={switchChecked} />
-									</Flex>
+						<!-- Alerts -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Alerts</Text>
+								<Stack direction="vertical" gap="md">
+									<Alert variant="default">
+										<AlertTitle>Default Alert</AlertTitle>
+										<AlertDescription>This is a default alert message.</AlertDescription>
+									</Alert>
+									<Alert variant="info">
+										<AlertTitle>Info</AlertTitle>
+										<AlertDescription>
+											This is an informational alert with helpful context.
+										</AlertDescription>
+									</Alert>
+									{#if showSuccessAlert}
+										<Alert variant="success" dismissible onClose={() => (showSuccessAlert = false)}>
+											<AlertTitle>Success!</AlertTitle>
+											<AlertDescription>Your changes have been saved successfully.</AlertDescription
+											>
+										</Alert>
+									{/if}
+									<Alert variant="warning">
+										<AlertTitle>Warning</AlertTitle>
+										<AlertDescription
+											>Please review your settings before proceeding.</AlertDescription
+										>
+									</Alert>
+									<Alert variant="error">
+										<AlertTitle>Error</AlertTitle>
+										<AlertDescription>
+											An error occurred while processing your request.
+										</AlertDescription>
+									</Alert>
 								</Stack>
-							</CardContent>
-							<CardFooter>
-								<Button variant="primary" style="width: 100%;">Submit Form</Button>
-							</CardFooter>
-						</Card>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Toast -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Toast Notifications</Text>
+								<Text size="sm" variant="muted">Global notification system</Text>
+								<Flex direction="row" gap="md" wrap>
+									<Button
+										variant="outline"
+										on:click={() => toast.success('Success!', 'Your changes have been saved.')}
+									>
+										Show Success
+									</Button>
+									<Button
+										variant="outline"
+										on:click={() => toast.error('Error!', 'Something went wrong.')}
+									>
+										Show Error
+									</Button>
+									<Button
+										variant="outline"
+										on:click={() => toast.info('Info', 'This is an informational message.')}
+									>
+										Show Info
+									</Button>
+									<Button
+										variant="outline"
+										on:click={() => toast.warning('Warning', 'Please review your changes.')}
+									>
+										Show Warning
+									</Button>
+								</Flex>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Spinner -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Spinner</Text>
+								<Text size="base" weight="medium">Sizes</Text>
+								<Flex direction="row" gap="xl" align="center" wrap>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner size="sm" />
+										<Text size="sm" variant="muted">Small</Text>
+									</Stack>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner size="md" />
+										<Text size="sm" variant="muted">Medium</Text>
+									</Stack>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner size="lg" />
+										<Text size="sm" variant="muted">Large</Text>
+									</Stack>
+									<Stack direction="vertical" gap="xs" align="center">
+										<Spinner size="xl" />
+										<Text size="sm" variant="muted">X-Large</Text>
+									</Stack>
+								</Flex>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Progress -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Progress</Text>
+								<Stack direction="vertical" gap="md">
+									<Progress value={progressValue} showLabel />
+									<Progress value={60} variant="primary" showLabel />
+									<Progress value={80} variant="success" showLabel />
+									<Progress value={50} variant="warning" showLabel />
+									<Progress value={30} variant="error" showLabel />
+								</Stack>
+								<Flex direction="row" gap="sm">
+									<Button
+										size="sm"
+										on:click={() => (progressValue = Math.max(0, progressValue - 10))}
+									>
+										Decrease
+									</Button>
+									<Button
+										size="sm"
+										on:click={() => (progressValue = Math.min(100, progressValue + 10))}
+									>
+										Increase
+									</Button>
+								</Flex>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Skeleton -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Skeleton</Text>
+								<Stack direction="vertical" gap="md">
+									<Skeleton variant="text" lines={3} />
+									<Flex direction="row" gap="md">
+										<Skeleton variant="circular" width="48px" height="48px" />
+										<Stack direction="vertical" gap="xs" style="flex: 1;">
+											<Skeleton variant="text" />
+											<Skeleton variant="text" width="60%" />
+										</Stack>
+									</Flex>
+									<Skeleton variant="rectangular" height="200px" />
+								</Stack>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Empty State -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Empty State</Text>
+								<Card>
+									<CardContent>
+										<EmptyState
+											icon="📭"
+											title="Inbox empty"
+											description="You're all caught up! Check back later for new messages."
+										>
+											<Button slot="action" variant="primary">Compose Message</Button>
+										</EmptyState>
+									</CardContent>
+								</Card>
+							</Stack>
+						</Box>
 					</Stack>
 				</TabsContent>
 
-				<!-- Layout Components Tab -->
-				<TabsContent value="layouts">
+				<!-- Navigation Tab -->
+				<TabsContent value="navigation">
+					<Stack direction="vertical" gap="3xl">
+						<!-- Breadcrumbs -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Breadcrumbs</Text>
+								<Text size="sm" variant="muted">Navigation trail</Text>
+								<Breadcrumbs>
+									<BreadcrumbItem href="/">Home</BreadcrumbItem>
+									<BreadcrumbItem href="/products">Products</BreadcrumbItem>
+									<BreadcrumbItem href="/products/electronics">Electronics</BreadcrumbItem>
+									<BreadcrumbItem current>Laptop</BreadcrumbItem>
+								</Breadcrumbs>
+
+								<Text size="sm" variant="muted">Custom separator:</Text>
+								<Breadcrumbs separator=">">
+									<BreadcrumbItem href="/">Home</BreadcrumbItem>
+									<BreadcrumbItem href="/docs">Documentation</BreadcrumbItem>
+									<BreadcrumbItem current>Components</BreadcrumbItem>
+								</Breadcrumbs>
+							</Stack>
+						</Box>
+
+						<Separator />
+
+						<!-- Pagination -->
+						<Box as="section">
+							<Stack direction="vertical" gap="lg">
+								<Text size="2xl" weight="semibold">Pagination</Text>
+								<Text size="sm" variant="muted">Page navigation</Text>
+								<Pagination bind:currentPage totalPages={20} />
+								<Text size="sm" variant="muted">Current page: {currentPage}</Text>
+							</Stack>
+						</Box>
+					</Stack>
+				</TabsContent>
+
+				<!-- Layout Tab -->
+				<TabsContent value="layout">
 					<Stack direction="vertical" gap="3xl">
 						<Box as="section">
 							<Stack direction="vertical" gap="lg">
@@ -451,321 +875,6 @@
 											Stack Item {i + 1}
 										</Box>
 									{/each}
-								</Stack>
-							</Stack>
-						</Box>
-					</Stack>
-				</TabsContent>
-
-				<!-- Feedback & Loading Components Tab -->
-				<TabsContent value="feedback">
-					<Stack direction="vertical" gap="3xl">
-						<!-- Spinner -->
-						<Box as="section">
-							<Stack direction="vertical" gap="lg">
-								<Text size="2xl" weight="semibold">Spinner</Text>
-								<Text size="sm" variant="muted"
-									>Loading indicators with different sizes and colors</Text
-								>
-
-								<Text size="base" weight="medium">Sizes</Text>
-								<Flex direction="row" gap="xl" align="center" wrap>
-									<Stack direction="vertical" gap="xs" align="center">
-										<Spinner size="sm" />
-										<Text size="sm" variant="muted">Small</Text>
-									</Stack>
-									<Stack direction="vertical" gap="xs" align="center">
-										<Spinner size="md" />
-										<Text size="sm" variant="muted">Medium</Text>
-									</Stack>
-									<Stack direction="vertical" gap="xs" align="center">
-										<Spinner size="lg" />
-										<Text size="sm" variant="muted">Large</Text>
-									</Stack>
-									<Stack direction="vertical" gap="xs" align="center">
-										<Spinner size="xl" />
-										<Text size="sm" variant="muted">X-Large</Text>
-									</Stack>
-								</Flex>
-
-								<Text size="base" weight="medium">Variants</Text>
-								<Flex direction="row" gap="xl" align="center" wrap>
-									<Stack direction="vertical" gap="xs" align="center">
-										<Spinner variant="primary" />
-										<Text size="sm" variant="muted">Primary</Text>
-									</Stack>
-									<Stack direction="vertical" gap="xs" align="center">
-										<Spinner variant="secondary" />
-										<Text size="sm" variant="muted">Secondary</Text>
-									</Stack>
-									<Stack direction="vertical" gap="xs" align="center">
-										<Box
-											p="md"
-											style="background-color: var(--color-primary); border-radius: var(--radius-md);"
-										>
-											<Spinner variant="white" />
-										</Box>
-										<Text size="sm" variant="muted">White</Text>
-									</Stack>
-								</Flex>
-							</Stack>
-						</Box>
-
-						<Separator />
-
-						<!-- Progress -->
-						<Box as="section">
-							<Stack direction="vertical" gap="lg">
-								<Text size="2xl" weight="semibold">Progress</Text>
-								<Text size="sm" variant="muted">Progress bars for showing completion status</Text>
-
-								<Stack direction="vertical" gap="md">
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Basic Progress</Text>
-										<Progress value={progressValue} />
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">With Label</Text>
-										<Progress value={progressValue} showLabel />
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Sizes</Text>
-										<Progress value={75} size="sm" />
-										<Progress value={75} size="md" />
-										<Progress value={75} size="lg" />
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Variants</Text>
-										<Progress value={60} variant="primary" showLabel />
-										<Progress value={80} variant="success" showLabel />
-										<Progress value={50} variant="warning" showLabel />
-										<Progress value={30} variant="error" showLabel />
-									</Stack>
-								</Stack>
-
-								<Flex direction="row" gap="sm">
-									<Button
-										size="sm"
-										on:click={() => (progressValue = Math.max(0, progressValue - 10))}
-									>
-										Decrease
-									</Button>
-									<Button
-										size="sm"
-										on:click={() => (progressValue = Math.min(100, progressValue + 10))}
-									>
-										Increase
-									</Button>
-								</Flex>
-							</Stack>
-						</Box>
-
-						<Separator />
-
-						<!-- Skeleton -->
-						<Box as="section">
-							<Stack direction="vertical" gap="lg">
-								<Text size="2xl" weight="semibold">Skeleton</Text>
-								<Text size="sm" variant="muted">Loading placeholders for content</Text>
-
-								<Stack direction="vertical" gap="xl">
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Text Lines</Text>
-										<Skeleton variant="text" lines={1} />
-										<Skeleton variant="text" lines={3} />
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Circular (Avatar)</Text>
-										<Flex direction="row" gap="md">
-											<Skeleton variant="circular" width="40px" height="40px" />
-											<Skeleton variant="circular" width="48px" height="48px" />
-											<Skeleton variant="circular" width="64px" height="64px" />
-										</Flex>
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Rectangular (Cards/Images)</Text>
-										<Skeleton variant="rectangular" height="120px" />
-										<Skeleton variant="rectangular" width="300px" height="200px" />
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Card Skeleton Example</Text>
-										<Card style="max-width: 400px;">
-											<CardContent>
-												<Stack direction="vertical" gap="md">
-													<Flex direction="row" gap="md" align="start">
-														<Skeleton variant="circular" width="48px" height="48px" />
-														<Stack direction="vertical" gap="xs" style="flex: 1;">
-															<Skeleton variant="text" />
-															<Skeleton variant="text" width="60%" />
-														</Stack>
-													</Flex>
-													<Skeleton variant="rectangular" height="200px" />
-													<Skeleton variant="text" lines={2} />
-												</Stack>
-											</CardContent>
-										</Card>
-									</Stack>
-								</Stack>
-							</Stack>
-						</Box>
-
-						<Separator />
-
-						<!-- Kbd -->
-						<Box as="section">
-							<Stack direction="vertical" gap="lg">
-								<Text size="2xl" weight="semibold">Kbd (Keyboard Shortcuts)</Text>
-								<Text size="sm" variant="muted"
-									>Display keyboard shortcuts and key combinations</Text
-								>
-
-								<Stack direction="vertical" gap="md">
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Sizes</Text>
-										<Flex direction="row" gap="md" align="center">
-											<Kbd size="sm">Esc</Kbd>
-											<Kbd size="md">Tab</Kbd>
-											<Kbd size="lg">Enter</Kbd>
-										</Flex>
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Common Shortcuts</Text>
-										<Flex direction="row" gap="lg" wrap>
-											<Flex direction="row" gap="xs" align="center">
-												<Kbd>⌘</Kbd>
-												<Text size="sm">+</Text>
-												<Kbd>K</Kbd>
-												<Text size="sm" variant="muted">Search</Text>
-											</Flex>
-											<Flex direction="row" gap="xs" align="center">
-												<Kbd>Ctrl</Kbd>
-												<Text size="sm">+</Text>
-												<Kbd>C</Kbd>
-												<Text size="sm" variant="muted">Copy</Text>
-											</Flex>
-											<Flex direction="row" gap="xs" align="center">
-												<Kbd>Ctrl</Kbd>
-												<Text size="sm">+</Text>
-												<Kbd>V</Kbd>
-												<Text size="sm" variant="muted">Paste</Text>
-											</Flex>
-											<Flex direction="row" gap="xs" align="center">
-												<Kbd>Shift</Kbd>
-												<Text size="sm">+</Text>
-												<Kbd>Del</Kbd>
-												<Text size="sm" variant="muted">Delete</Text>
-											</Flex>
-										</Flex>
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">In Context</Text>
-										<Card style="max-width: 500px;">
-											<CardContent>
-												<Stack direction="vertical" gap="sm">
-													<Text size="sm">
-														Press <Kbd>⌘</Kbd> + <Kbd>K</Kbd> to open the command menu
-													</Text>
-													<Text size="sm">
-														Use <Kbd>↑</Kbd> and <Kbd>↓</Kbd> to navigate
-													</Text>
-													<Text size="sm">
-														Press <Kbd>Enter</Kbd> to select an item
-													</Text>
-													<Text size="sm">
-														Press <Kbd>Esc</Kbd> to close
-													</Text>
-												</Stack>
-											</CardContent>
-										</Card>
-									</Stack>
-								</Stack>
-							</Stack>
-						</Box>
-
-						<Separator />
-
-						<!-- EmptyState -->
-						<Box as="section">
-							<Stack direction="vertical" gap="lg">
-								<Text size="2xl" weight="semibold">Empty State</Text>
-								<Text size="sm" variant="muted"
-									>Placeholder for when there's no data to display</Text
-								>
-
-								<Stack direction="vertical" gap="xl">
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Basic</Text>
-										<Card>
-											<CardContent>
-												<EmptyState
-													title="No results found"
-													description="Try adjusting your search terms"
-												/>
-											</CardContent>
-										</Card>
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">With Icon</Text>
-										<Card>
-											<CardContent>
-												<EmptyState
-													icon="🔍"
-													title="No items yet"
-													description="Start by creating your first item"
-												/>
-											</CardContent>
-										</Card>
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">With Action Button</Text>
-										<Card>
-											<CardContent>
-												<EmptyState
-													icon="📭"
-													title="Inbox empty"
-													description="You're all caught up! Check back later for new messages."
-												>
-													<Button slot="action" variant="primary">Compose Message</Button>
-												</EmptyState>
-											</CardContent>
-										</Card>
-									</Stack>
-
-									<Stack direction="vertical" gap="sm">
-										<Text size="base" weight="medium">Sizes</Text>
-										<Grid columns={2} columnsMobile={1} gap="lg">
-											<Card>
-												<CardContent>
-													<EmptyState
-														size="sm"
-														icon="📝"
-														title="No notes"
-														description="Create your first note"
-													/>
-												</CardContent>
-											</Card>
-											<Card>
-												<CardContent>
-													<EmptyState
-														size="lg"
-														icon="🎉"
-														title="All done!"
-														description="You've completed all your tasks"
-													/>
-												</CardContent>
-											</Card>
-										</Grid>
-									</Stack>
 								</Stack>
 							</Stack>
 						</Box>
