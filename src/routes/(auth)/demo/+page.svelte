@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Button from '$lib/components/ui/Button.svelte';
+	import Button from '$lib/components/forms/Button.svelte';
 	import { authStore } from '$lib/stores/auth';
 	import { uiStore } from '$lib/stores/ui';
 	import { usersStore, userStore } from '$lib/stores/queries/users';

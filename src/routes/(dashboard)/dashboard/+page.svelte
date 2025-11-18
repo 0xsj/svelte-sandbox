@@ -4,14 +4,14 @@
 	import Stack from '$lib/components/layout/Stack.svelte';
 	import Grid from '$lib/components/layout/Grid.svelte';
 	import Flex from '$lib/components/layout/Flex.svelte';
-	import Button from '$lib/components/ui/Button.svelte';
-	import Text from '$lib/components/ui/Text.svelte';
-	import Badge from '$lib/components/ui/Badge.svelte';
-	import Separator from '$lib/components/ui/Separator.svelte';
-	import Card from '$lib/components/ui/card/Card.svelte';
-	import CardHeader from '$lib/components/ui/card/CardHeader.svelte';
-	import CardTitle from '$lib/components/ui/card/CardTitle.svelte';
-	import CardContent from '$lib/components/ui/card/CardContent.svelte';
+	import Button from '$lib/components/forms/Button.svelte';
+	import Text from '$lib/components/display/Text.svelte';
+	import Badge from '$lib/components/display/Badge.svelte';
+	import Separator from '$lib/components/display/Separator.svelte';
+	import Card from '$lib/components/display/card/Card.svelte';
+	import CardHeader from '$lib/components/display/card/CardHeader.svelte';
+	import CardTitle from '$lib/components/display/card/CardTitle.svelte';
+	import CardContent from '$lib/components/display/card/CardContent.svelte';
 	import ThemeToggle from '$lib/components/ThemeToggle.svelte';
 </script>
 

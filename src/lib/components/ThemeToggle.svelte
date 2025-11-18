@@ -1,7 +1,7 @@
 <script>
 	import { theme } from '$lib/stores/theme';
 	import { onMount } from 'svelte';
-	import Button from './ui/Button.svelte';
+	import Button from './forms/Button.svelte';
 
 	let current = 'light';
 	onMount(() => {

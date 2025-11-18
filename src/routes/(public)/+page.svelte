@@ -3,13 +3,13 @@
 	import Box from '$lib/components/layout/Box.svelte';
 	import Stack from '$lib/components/layout/Stack.svelte';
 	import Flex from '$lib/components/layout/Flex.svelte';
-	import Button from '$lib/components/ui/Button.svelte';
-	import Text from '$lib/components/ui/Text.svelte';
-	import Label from '$lib/components/ui/Label.svelte';
-	import Input from '$lib/components/ui/Input.svelte';
-	import Badge from '$lib/components/ui/Badge.svelte';
-	import Separator from '$lib/components/ui/Separator.svelte';
-	import Checkbox from '$lib/components/ui/Checkbox.svelte';
+	import Button from '$lib/components/forms/Button.svelte';
+	import Text from '$lib/components/display/Text.svelte';
+	import Label from '$lib/components/forms/Label.svelte';
+	import Input from '$lib/components/forms/Input.svelte';
+	import Badge from '$lib/components/display/Badge.svelte';
+	import Separator from '$lib/components/display/Separator.svelte';
+	import Checkbox from '$lib/components/forms/Checkbox.svelte';
 </script>
 
 <Container size="xl">
